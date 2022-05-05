@@ -1,0 +1,46 @@
+<resources>
+    <string name="app_name">Code03</string>
+    <string name="article_title">Everything is made of something</string>
+    <string name="article_subheading">By Ajay Dasgupta</string>
+    <string name="article_text">
+        le keywordstyle How do you make tea? Simple , put a teaspoon of tea into a boiling
+        cup of water. Strain the water , pour some milk and sugar to taste
+        and the tea is ready! Interestingly , everything that we prepare
+        a recipe and is made up of simpler ingredients.
+        \n\nFor example , what is sugar made of? It is made of sugar
+        molecules , which in turn , are made up of atoms. The atom is the
+        building block of all substances.
+        \n\nThe concept of the atom was first introduced by the Greek
+        philosophers Democritus and Leucippus around 450-420 B.C.
+        The word \'atom\' comes from a Greek word that means \'indivisible\'.
+        Infact , until recently , the atom was considered to be indivisible.
+        \n\n<b><i>How small is an atom?</i></b>
+        \n\nAtoms are very tiny , with diameters like one
+        ten-thousand -millionth of a metre. So, approximately 50,000,000
+        atoms of solid matter like iron , lined up in a row, would measure
+        one centimetre (0.4 inch).
+        \n\nHowever , Carl Sagan in his book Cosmos says that if you
+        cut an apple -pie into equal halves and further divide each half
+        into smaller and smaller pieces , in about 90 cuts you will reach
+        a single atom. But, there is no knife that can cut so fine.
+        And the apple -pie would become invisible to the human eye in
+        about 20 cuts.
+        \n\n<b><i>How do atoms create other substances?</i></b>
+        \n\nTwo or more atoms join together to form a molecule.
+        The molecule is the smallest part of a substance known as a
+        compound. For example , when two atoms of oxygen combine
+        with one atom of carbon , it forms carbon dioxide gas.
+        \n\nThese compounds group together to form bigger
+        complex substances.
+        \n\n<b><i>What are atoms made of?</i></b>
+        \n\nIs there a recipe for the atom? Yes! As with every other
+        thing , even the atom is composed of smaller particles.
+        These particles are called neutrons , protons and electrons.
+        They are necessary ingredients to make an atom.
+        \n\nScientists have also found substances which make up
+        electrons and protons. So we have a recipe for electrons and
+        protons as well.
+        \n\nEverything around us is actually made out of something
+        else , in an unending chain of ingredients and recipes.
+    </string>
+</resources>
