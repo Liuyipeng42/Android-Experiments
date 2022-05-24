@@ -9,7 +9,6 @@ import android.content.Intent;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Binder;
-import android.os.Build;
 import android.os.IBinder;
 
 import androidx.core.app.NotificationCompat;
@@ -84,16 +83,14 @@ public class MusicService extends Service {
             }
         }
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            mNotificationManager =
-                    (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        mNotificationManager =
+                (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
 
-            NotificationChannel channel = new NotificationChannel(CHANNEL_ID,
-                    "Music Channel", NotificationManager.IMPORTANCE_HIGH);
+        NotificationChannel channel = new NotificationChannel(CHANNEL_ID,
+                "Music Channel", NotificationManager.IMPORTANCE_HIGH);
 
-            if (mNotificationManager != null) {
-                mNotificationManager.createNotificationChannel(channel);
-            }
+        if (mNotificationManager != null) {
+            mNotificationManager.createNotificationChannel(channel);
         }
 
         Intent notificationIntent =

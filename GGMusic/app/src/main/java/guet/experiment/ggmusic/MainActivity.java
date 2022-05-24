@@ -17,7 +17,6 @@ import android.content.ServiceConnection;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -46,7 +45,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private static final int UPDATE_PROGRESS = 1;
 
     private MusicService mService;
-    private boolean mBound = false;
 
     public static final String DATA_URI = "guet.experiment.ggmusic.DATA_URI";
     public static final String ARTIST = "guet.experiment.ggmusic.ARTIST";
@@ -69,8 +67,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private ImageView ivPlay;
     private ProgressBar pbProgress;
 
-    private MediaPlayer mMediaPlayer = null;
-
     private ContentResolver mContentResolver;
     private MediaCursorAdapter mCursorAdapter;
 
@@ -81,19 +77,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private MusicReceiver musicReceiver;
 
-    private ServiceConnection mConn = new ServiceConnection() {
+    private final ServiceConnection mConn = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName componentName,
                                        IBinder iBinder) {
             MusicService.MusicServiceBinder binder = (MusicService.MusicServiceBinder) iBinder;
             mService = binder.getService();
-            mBound = true;
         }
 
         @Override
         public void onServiceDisconnected(ComponentName componentName) {
             mService = null;
-            mBound = false;
         }
     };
 
@@ -122,26 +116,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 long albumId = cursor.getLong(albumIdIndex);
                 String data = cursor.getString(dataIndex);
 
-                Uri dataUri = Uri.parse(data);
-
                 Intent serviceIntent = new Intent(MainActivity.this, MusicService.class);
                 serviceIntent.putExtra(MainActivity.DATA_URI, data);
                 serviceIntent.putExtra(MainActivity.TITLE, title);
                 serviceIntent.putExtra(MainActivity.ARTIST, artist);
                 startForegroundService(serviceIntent);
-
-                if (mMediaPlayer != null) {
-                    try {
-                        mMediaPlayer.reset();
-                        mMediaPlayer.setDataSource(
-                                MainActivity.this, dataUri
-                        );
-                        mMediaPlayer.prepare();
-                        mMediaPlayer.start();
-                    } catch (IOException ex) {
-                        ex.printStackTrace();
-                    }
-                }
 
                 navigation.setVisibility(View.VISIBLE);
 
@@ -279,32 +258,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //            mMediaPlayer = null;
 //        }
         unbindService(mConn);
-        mBound = false;
         super.onStop();
     }
 
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.iv_play) {
-            if (mService.isPlaying() == true) {
+            if (mService.isPlaying()) {
                 mService.pause();
-                ivPlay.setImageResource(R.drawable.ic_baseline_pause_circle_outline_24);
+                ivPlay.setImageResource(R.drawable.ic_baseline_play_circle_outline_24);
             } else {
                 mService.play();
-                ivPlay.setImageResource(R.drawable.ic_baseline_play_circle_outline_24);
+                ivPlay.setImageResource(R.drawable.ic_baseline_pause_circle_outline_24);
             }
         }
     }
 
-    private Handler mHandler = new Handler(Looper.getMainLooper()) {
+    private final Handler mHandler = new Handler(Looper.getMainLooper()) {
         public void handleMessage(Message msg) {
-            switch (msg.what) {
-                case UPDATE_PROGRESS:
-                    int position = msg.arg1;
-                    pbProgress.setProgress(position);
-                    break;
-                default:
-                    break;
+            if (msg.what == UPDATE_PROGRESS) {
+                int position = msg.arg1;
+                pbProgress.setProgress(position);
             }
         }
     };
@@ -326,6 +300,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         message.arg1 = position;
                         mHandler.sendMessage(message);
                     }
+                    assert mService != null;
                     mThreadWorking = mService.isPlaying();
                     Thread.sleep(100);
                 } catch (InterruptedException ie) {
